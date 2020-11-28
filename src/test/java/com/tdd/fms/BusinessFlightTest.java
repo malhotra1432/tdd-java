@@ -1,14 +1,20 @@
 package com.tdd.fms;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BusinessFlightTest {
+    private Flight businessFlight;
+
+    @BeforeEach
+    void setUp(){
+        businessFlight = new BusinessFlight("1");
+    }
 
     @Test
     void shouldAddNonVipPassengerToBusinessFlight() {
-        Flight businessFlight = new BusinessFlight("1");
         Passenger passenger = new Passenger("Alice", false);
 
         assertTrue(businessFlight.addPassenger(passenger));
@@ -17,7 +23,6 @@ class BusinessFlightTest {
 
     @Test
     void shouldAddVipPassengerFromBusinessFlight() {
-        Flight businessFlight = new BusinessFlight("1");
         Passenger passenger = new Passenger("Marley", true);
 
         assertTrue(businessFlight.addPassenger(passenger));
@@ -26,7 +31,6 @@ class BusinessFlightTest {
 
     @Test
     void shouldNotRemoveVipPassengerFromBusinessFlight() {
-        Flight businessFlight = new BusinessFlight("1");
         Passenger passenger = new Passenger("Bob", true);
 
         businessFlight.addPassenger(passenger);
@@ -38,7 +42,6 @@ class BusinessFlightTest {
 
     @Test
     void shouldRemoveNonVipPassengerFromBusinessFlight() {
-        Flight businessFlight = new BusinessFlight("1");
         Passenger passenger = new Passenger("Marley", false);
 
         businessFlight.addPassenger(passenger);
