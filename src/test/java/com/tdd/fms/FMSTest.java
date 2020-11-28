@@ -1,6 +1,7 @@
 package com.tdd.fms;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -9,95 +10,90 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FMSTest {
 
+    @DisplayName("Given there is a Business flight")
     @Nested
     class BusinessFlightTest {
         private Flight businessFlight;
+        private Passenger alice;
+        private Passenger bob;
 
         @BeforeEach
         void setUp(){
             businessFlight = new BusinessFlight("1");
+            alice = new Passenger("Alice", true);
+            bob = new Passenger("Bob", false);
         }
 
         @Test
         void shouldAddNonVipPassengerToBusinessFlight() {
-            Passenger passenger = new Passenger("Alice", false);
 
-            assertTrue(businessFlight.addPassenger(passenger));
+            assertTrue(businessFlight.addPassenger(bob));
             assertEquals(1, businessFlight.getPassengersList().size());
         }
 
         @Test
         void shouldAddVipPassengerFromBusinessFlight() {
-            Passenger passenger = new Passenger("Marley", true);
-
-            assertTrue(businessFlight.addPassenger(passenger));
+            assertTrue(businessFlight.addPassenger(alice));
             assertEquals(1, businessFlight.getPassengersList().size());
         }
 
         @Test
         void shouldNotRemoveVipPassengerFromBusinessFlight() {
-            Passenger passenger = new Passenger("Bob", true);
+            businessFlight.addPassenger(alice);
 
-            businessFlight.addPassenger(passenger);
-
-            assertFalse(businessFlight.removePassenger(passenger));
+            assertFalse(businessFlight.removePassenger(alice));
             assertEquals(1, businessFlight.getPassengersList().size());
 
         }
 
         @Test
         void shouldRemoveNonVipPassengerFromBusinessFlight() {
-            Passenger passenger = new Passenger("Marley", false);
+            businessFlight.addPassenger(bob);
 
-            businessFlight.addPassenger(passenger);
-
-            assertFalse(businessFlight.removePassenger(passenger));
+            assertFalse(businessFlight.removePassenger(bob));
             assertEquals(1, businessFlight.getPassengersList().size());
         }
     }
 
+    @DisplayName("Given there is an Economy flight")
     @Nested
     class EconomyFlightTest {
         private Flight economyFlight;
+        private Passenger alice;
+        private Passenger bob;
 
         @BeforeEach
         void setUp(){
             economyFlight = new EconomyFlight("1");
+            alice = new Passenger("Alice", true);
+            bob = new Passenger("Bob", false);
         }
 
         @Test
         void shouldAddNonVipPassengerToEconomyFlight() {
-            Passenger passenger = new Passenger("Alice", false);
-
-            assertTrue(economyFlight.addPassenger(passenger));
+            assertTrue(economyFlight.addPassenger(bob));
             assertEquals(1, economyFlight.getPassengersList().size());
         }
 
         @Test
         void shouldAddVipPassengerFromEconomyFlight() {
-            Passenger passenger = new Passenger("Marley", true);
-
-            assertTrue(economyFlight.addPassenger(passenger));
+            assertTrue(economyFlight.addPassenger(alice));
             assertEquals(1, economyFlight.getPassengersList().size());
         }
 
         @Test
         void shouldNotRemoveVipPassengerFromEconomyFlight() {
-            Passenger passenger = new Passenger("Bob", true);
+            economyFlight.addPassenger(alice);
 
-            economyFlight.addPassenger(passenger);
-
-            assertFalse(economyFlight.removePassenger(passenger));
+            assertFalse(economyFlight.removePassenger(alice));
             assertEquals(1, economyFlight.getPassengersList().size());
         }
 
         @Test
         void shouldRemoveNonVipPassengerFromEconomyFlight() {
-            Passenger passenger = new Passenger("Marley", false);
+            economyFlight.addPassenger(bob);
 
-            economyFlight.addPassenger(passenger);
-
-            assertTrue(economyFlight.removePassenger(passenger));
+            assertTrue(economyFlight.removePassenger(bob));
             assertEquals(0, economyFlight.getPassengersList().size());
         }
     }
