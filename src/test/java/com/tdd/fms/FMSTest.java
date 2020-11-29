@@ -18,7 +18,7 @@ public class FMSTest {
         private Passenger bob;
 
         @BeforeEach
-        void setUp(){
+        void setUp() {
             businessFlight = new BusinessFlight("1");
             alice = new Passenger("Alice", true);
             bob = new Passenger("Bob", false);
@@ -63,7 +63,7 @@ public class FMSTest {
         private Passenger bob;
 
         @BeforeEach
-        void setUp(){
+        void setUp() {
             economyFlight = new EconomyFlight("1");
             alice = new Passenger("Alice", true);
             bob = new Passenger("Bob", false);
@@ -96,5 +96,47 @@ public class FMSTest {
             assertTrue(economyFlight.removePassenger(bob));
             assertEquals(0, economyFlight.getPassengersList().size());
         }
+    }
+
+    @DisplayName("Given there is a Premium flight")
+    @Nested
+    class PremiumFlightTest {
+        private Flight premiumFlight;
+        private Passenger alice;
+        private Passenger bob;
+
+        @BeforeEach
+        void setUp() {
+            premiumFlight = new PremiumFlight("1");
+            alice = new Passenger("Alice", true);
+            bob = new Passenger("Bob", false);
+        }
+
+        @Test
+        void shouldAddVipPassengerToPremiumFlight() {
+            assertTrue(premiumFlight.addPassenger(alice));
+            assertEquals(1, premiumFlight.getPassengersList().size());
+        }
+
+        @Test
+        void shouldNotAddNonVipPassengerToPremiumFlight() {
+            assertFalse(premiumFlight.addPassenger(bob));
+            assertEquals(0, premiumFlight.getPassengersList().size());
+        }
+
+        @Test
+        void shouldRemoveVipPassengerFromPremiumFlight() {
+            premiumFlight.getPassengersList().add(alice);
+            assertTrue(premiumFlight.removePassenger(alice));
+            assertEquals(0, premiumFlight.getPassengersList().size());
+        }
+
+        @Test
+        void shouldRemoveNonVipPassengerFromPremiumFlight() {
+            assertFalse(premiumFlight.addPassenger(bob));
+            assertFalse(premiumFlight.removePassenger(bob));
+            assertEquals(0, premiumFlight.getPassengersList().size());
+        }
+
     }
 }
