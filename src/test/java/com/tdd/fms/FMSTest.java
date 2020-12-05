@@ -20,8 +20,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             businessFlight = new BusinessFlight("1");
-            alice = new Passenger("Alice", true);
-            bob = new Passenger("Bob", false);
+            alice = new Passenger("alice123", "Alice", true);
+            bob = new Passenger("bob123", "Bob", false);
         }
 
         @Test
@@ -65,8 +65,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             economyFlight = new EconomyFlight("1");
-            alice = new Passenger("Alice", true);
-            bob = new Passenger("Bob", false);
+            alice = new Passenger("alice123", "Alice", true);
+            bob = new Passenger("bob123", "Bob", false);
         }
 
         @Test
@@ -108,8 +108,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             premiumFlight = new PremiumFlight("1");
-            alice = new Passenger("Alice", true);
-            bob = new Passenger("Bob", false);
+            alice = new Passenger("alice123", "Alice", true);
+            bob = new Passenger("bob123", "Bob", false);
         }
 
         @Test
@@ -154,8 +154,8 @@ public class FMSTest {
             businessFlight = new BusinessFlight("1");
             economiclight = new EconomyFlight("2");
             premiumFlight = new PremiumFlight("3");
-            alice = new Passenger("Alice", true);
-            bob = new Passenger("Bob", false);
+            alice = new Passenger("alice123", "Alice", true);
+            bob = new Passenger("bob123", "Bob", false);
         }
 
         @Test
@@ -165,13 +165,13 @@ public class FMSTest {
             premiumFlight.addPassenger(alice);
 
             var businessFlightSinglePassengerCount = businessFlight.getPassengersList().stream()
-                    .filter(passenger -> passenger.getName().equals(bob.getName()))
+                    .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
                     .count();
             var economicFlightSinglePassengerCount = economiclight.getPassengersList().stream()
-                    .filter(passenger -> passenger.getName().equals(bob.getName()))
+                    .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
                     .count();
             var premiumFlightSinglePassengerCount = premiumFlight.getPassengersList().stream()
-                    .filter(passenger -> passenger.getName().equals(alice.getName()))
+                    .filter(passenger -> passenger.getBookingId().equals(alice.getBookingId()))
                     .count();
 
             assertFalse(businessFlight.addPassenger(bob));
