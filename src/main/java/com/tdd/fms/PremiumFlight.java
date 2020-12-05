@@ -7,7 +7,9 @@ public class PremiumFlight extends Flight {
 
     @Override
     public boolean addPassenger(Passenger passenger) {
-        if (passenger.isVip()) {
+        var singlePassengerCount = getPassengersList().stream().filter(passengerFilter -> passengerFilter.getName().equals(passenger.getName())).count();
+
+        if (passenger.isVip() && singlePassengerCount == 0) {
             return getPassengersList().add(passenger);
         }
         return false;

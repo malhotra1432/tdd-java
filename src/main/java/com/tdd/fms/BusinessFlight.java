@@ -1,13 +1,17 @@
 package com.tdd.fms;
 
 public class BusinessFlight extends Flight {
-    public BusinessFlight(String id){
+    public BusinessFlight(String id) {
         super(id);
     }
 
     @Override
     public boolean addPassenger(Passenger passenger) {
-        return getPassengersList().add(passenger);
+        var singlePassengerCount = getPassengersList().stream().filter(passengerFilter -> passengerFilter.getName().equals(passenger.getName())).count();
+        if (singlePassengerCount == 0) {
+            return getPassengersList().add(passenger);
+        }
+        return false;
     }
 
     @Override

@@ -139,4 +139,53 @@ public class FMSTest {
         }
 
     }
+
+    @DisplayName("Add a passenger only once to the flight")
+    @Nested
+    class SinglePassengerTest {
+        private Flight premiumFlight;
+        private Flight businessFlight;
+        private Flight economiclight;
+        private Passenger alice;
+        private Passenger bob;
+
+        @BeforeEach
+        void setUp() {
+            businessFlight = new BusinessFlight("1");
+            economiclight = new EconomyFlight("2");
+            premiumFlight = new PremiumFlight("3");
+            alice = new Passenger("Alice", true);
+            bob = new Passenger("Bob", false);
+        }
+
+        @Test
+        void shouldNotAddSamePassengerTwice() {
+            businessFlight.addPassenger(bob);
+            economiclight.addPassenger(bob);
+            premiumFlight.addPassenger(alice);
+
+            var businessFlightSinglePassengerCount = businessFlight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getName().equals(bob.getName()))
+                    .count();
+            var economicFlightSinglePassengerCount = economiclight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getName().equals(bob.getName()))
+                    .count();
+            var premiumFlightSinglePassengerCount = premiumFlight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getName().equals(alice.getName()))
+                    .count();
+
+            assertFalse(businessFlight.addPassenger(bob));
+            assertFalse(businessFlight.addPassenger(bob));
+            assertEquals(1, businessFlightSinglePassengerCount);
+
+            assertFalse(economiclight.addPassenger(bob));
+            assertFalse(economiclight.addPassenger(bob));
+            assertEquals(1, economicFlightSinglePassengerCount);
+
+            assertFalse(premiumFlight.addPassenger(alice));
+            assertFalse(premiumFlight.addPassenger(alice));
+            assertEquals(1, premiumFlightSinglePassengerCount);
+        }
+
+    }
 }
