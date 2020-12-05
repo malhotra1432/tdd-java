@@ -5,17 +5,13 @@ public class Passenger {
     private final String name;
     private final boolean vip;
 
-
-
     public Passenger(String bookingId, String name, boolean vip){
         this.bookingId = bookingId;
         this.name = name;
         this.vip = vip;
     }
 
-    public String getBookingId() {
-        return bookingId;
-    }
+    public String getBookingId() { return bookingId; }
 
     public String getName(){
         return name;

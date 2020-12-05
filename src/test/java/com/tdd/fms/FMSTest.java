@@ -159,32 +159,62 @@ public class FMSTest {
         }
 
         @Test
-        void shouldNotAddSamePassengerTwice() {
-            businessFlight.addPassenger(bob);
-            economiclight.addPassenger(bob);
-            premiumFlight.addPassenger(alice);
+        void shouldNotAddSamePassengerTwiceToBusinessFlight() {
 
-            var businessFlightSinglePassengerCount = businessFlight.getPassengersList().stream()
+            businessFlight.addPassenger(bob);
+            businessFlight.addPassenger(alice);
+
+            var businessFlightBobCount = businessFlight.getPassengersList().stream()
                     .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
                     .count();
-            var economicFlightSinglePassengerCount = economiclight.getPassengersList().stream()
-                    .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
-                    .count();
-            var premiumFlightSinglePassengerCount = premiumFlight.getPassengersList().stream()
+
+            var businessFlightAliceCount = businessFlight.getPassengersList().stream()
                     .filter(passenger -> passenger.getBookingId().equals(alice.getBookingId()))
                     .count();
 
             assertFalse(businessFlight.addPassenger(bob));
             assertFalse(businessFlight.addPassenger(bob));
-            assertEquals(1, businessFlightSinglePassengerCount);
+            assertEquals(1, businessFlightBobCount);
+            assertFalse(businessFlight.addPassenger(alice));
+            assertEquals(1, businessFlightAliceCount);
+            assertEquals(2, businessFlight.getPassengersList().size());
+        }
+
+        @Test
+        void shouldNotAddSamePassengerTwiceToEconomicFlight() {
+
+            economiclight.addPassenger(bob);
+            economiclight.addPassenger(alice);
+
+            var economicFlightBobCount = economiclight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
+                    .count();
+
+            var economicFlightAliceCount = economiclight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
+                    .count();
 
             assertFalse(economiclight.addPassenger(bob));
             assertFalse(economiclight.addPassenger(bob));
-            assertEquals(1, economicFlightSinglePassengerCount);
+            assertEquals(1, economicFlightBobCount);
+            assertFalse(economiclight.addPassenger(alice));
+            assertEquals(1, economicFlightAliceCount);
+            assertEquals(2, economiclight.getPassengersList().size());
+        }
+
+        @Test
+        void shouldNotAddSamePassengerTwiceToPremiumFlight() {
+
+            premiumFlight.addPassenger(alice);
+
+            var premiumFlightSinglePassengerCount = premiumFlight.getPassengersList().stream()
+                    .filter(passenger -> passenger.getBookingId().equals(alice.getBookingId()))
+                    .count();
 
             assertFalse(premiumFlight.addPassenger(alice));
             assertFalse(premiumFlight.addPassenger(alice));
             assertEquals(1, premiumFlightSinglePassengerCount);
+            assertEquals(1, premiumFlight.getPassengersList().size());
         }
 
     }
