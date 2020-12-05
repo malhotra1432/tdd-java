@@ -145,14 +145,14 @@ public class FMSTest {
     class SinglePassengerTest {
         private Flight premiumFlight;
         private Flight businessFlight;
-        private Flight economiclight;
+        private Flight economicFlight;
         private Passenger alice;
         private Passenger bob;
 
         @BeforeEach
         void setUp() {
             businessFlight = new BusinessFlight("1");
-            economiclight = new EconomyFlight("2");
+            economicFlight = new EconomyFlight("2");
             premiumFlight = new PremiumFlight("3");
             alice = new Passenger("alice123", "Alice", true);
             bob = new Passenger("bob123", "Bob", false);
@@ -183,23 +183,23 @@ public class FMSTest {
         @Test
         void shouldNotAddSamePassengerTwiceToEconomicFlight() {
 
-            economiclight.addPassenger(bob);
-            economiclight.addPassenger(alice);
+            economicFlight.addPassenger(bob);
+            economicFlight.addPassenger(alice);
 
-            var economicFlightBobCount = economiclight.getPassengersList().stream()
+            var economicFlightBobCount = economicFlight.getPassengersList().stream()
                     .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
                     .count();
 
-            var economicFlightAliceCount = economiclight.getPassengersList().stream()
+            var economicFlightAliceCount = economicFlight.getPassengersList().stream()
                     .filter(passenger -> passenger.getBookingId().equals(bob.getBookingId()))
                     .count();
 
-            assertFalse(economiclight.addPassenger(bob));
-            assertFalse(economiclight.addPassenger(bob));
+            assertFalse(economicFlight.addPassenger(bob));
+            assertFalse(economicFlight.addPassenger(bob));
             assertEquals(1, economicFlightBobCount);
-            assertFalse(economiclight.addPassenger(alice));
+            assertFalse(economicFlight.addPassenger(alice));
             assertEquals(1, economicFlightAliceCount);
-            assertEquals(2, economiclight.getPassengersList().size());
+            assertEquals(2, economicFlight.getPassengersList().size());
         }
 
         @Test
