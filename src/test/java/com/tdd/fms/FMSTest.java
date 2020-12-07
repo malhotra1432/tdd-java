@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -20,8 +21,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             businessFlight = new BusinessFlight("1");
-            alice = new Passenger("alice123", "Alice", true);
-            bob = new Passenger("bob123", "Bob", false);
+            alice = new Passenger("alice123", "Alice", true, 10, 1000);
+            bob = new Passenger("bob123", "Bob", false, 20, 2000);
         }
 
         @Test
@@ -65,8 +66,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             economyFlight = new EconomyFlight("1");
-            alice = new Passenger("alice123", "Alice", true);
-            bob = new Passenger("bob123", "Bob", false);
+            alice = new Passenger("alice123", "Alice", true, 10, 1000);
+            bob = new Passenger("bob123", "Bob", false, 20, 2000);
         }
 
         @Test
@@ -108,8 +109,8 @@ public class FMSTest {
         @BeforeEach
         void setUp() {
             premiumFlight = new PremiumFlight("1");
-            alice = new Passenger("alice123", "Alice", true);
-            bob = new Passenger("bob123", "Bob", false);
+            alice = new Passenger("alice123", "Alice", true, 10, 1000);
+            bob = new Passenger("bob123", "Bob", false, 20, 2000);
         }
 
         @Test
@@ -154,8 +155,8 @@ public class FMSTest {
             businessFlight = new BusinessFlight("1");
             economicFlight = new EconomyFlight("2");
             premiumFlight = new PremiumFlight("3");
-            alice = new Passenger("alice123", "Alice", true);
-            bob = new Passenger("bob123", "Bob", false);
+            alice = new Passenger("alice123", "Alice", true, 10, 1000);
+            bob = new Passenger("bob123", "Bob", false, 20, 2000);
         }
 
         @Test
@@ -216,6 +217,31 @@ public class FMSTest {
             assertEquals(1, premiumFlightSinglePassengerCount);
             assertEquals(1, premiumFlight.getPassengersList().size());
         }
-
     }
+
+    @DisplayName("Bonus point for passengers")
+    @Nested
+    class PassengerBonusPointsTest {
+        private Passenger alice;
+        private Passenger bob;
+
+        @BeforeEach
+        void setUp() {
+            alice = new Passenger("alice123", "Alice", true, 10, 1000);
+            bob = new Passenger("bob123", "Bob", false, 20, 2000);
+        }
+
+        @Test
+        void shouldCalculateBonusPointsForNonVipPassenger() {
+            bob.setBonusPoint(bob.calculatePassengerBonusPoints(bob));
+            assertEquals(bob.getDistanceTravelled() / 20, bob.getBonusPoint());
+        }
+
+        @Test
+        void shouldCalculateBonusPointsForVipPassenger() {
+            alice.setBonusPoint(alice.calculatePassengerBonusPoints(alice));
+            assertEquals(alice.getDistanceTravelled() / 10, alice.getBonusPoint());
+        }
+    }
+
 }
